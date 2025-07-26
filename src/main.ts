@@ -1,6 +1,14 @@
 import { bootstrapApplication } from '@angular/platform-browser';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { appConfig } from './app/app.config';
 import { AppComponent } from './app/app.component';
+import { provideHttpClient } from '@angular/common/http';
 
-bootstrapApplication(AppComponent, appConfig)
+bootstrapApplication(AppComponent, {
+  providers: [
+    { provide: 'appConfig', useValue: appConfig },
+    provideHttpClient(),
+    provideAnimations()
+  ]
+})
   .catch((err) => console.error(err));

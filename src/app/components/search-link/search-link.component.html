@@ -1,0 +1,42 @@
+<form (submit)="onSubmit($event)">
+  <label for="link">Link: </label>
+  <input id="link" type="text" [formControl]="linkControl">
+  <button type="submit">Submit</button>
+</form>
+
+
+@let knifeData = clStore.result();
+
+@if (clStore.isLoading()) {
+  <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="large" color="#bf5543" type="triangle-skew-spin" [fullScreen]="false"><p style="color: #bf5543" > Comparing Blades... </p></ngx-spinner>
+}
+
+@if (knifeData) {
+  <div class="product">
+    <h3>Product</h3>
+    <img [src]="knifeData!.product.image" [alt]="knifeData!.product.title" width="200" />
+    <div><strong>{{ knifeData!.product.title }}</strong></div>
+    <div>Price: {{ knifeData!.product.price }}</div>
+    <div>Vendor: {{ knifeData!.product.vendor }}</div>
+    <div>Available: {{ knifeData!.product.available ? 'Yes' : 'No' }}</div>
+    <div><a [href]="knifeData!.product.link" target="_blank">View Product</a></div>
+  </div>
+
+  @if (knifeData && knifeData!.matches) {
+    <div class="matches">
+      <h3>Matches</h3>
+      @for (match of knifeData!.matches; track match.link) {
+        <div>
+          <img [src]="match.image" [alt]="match.title" width="200" />
+          <div><strong>{{ match.title }}</strong></div>
+          <div>Price: {{ match.price }}</div>
+          <div>Vendor: {{ match.vendor }}</div>
+          <div>Available: {{ match.available ? 'Yes' : 'No' }}</div>
+          <div><a [href]="match.link" target="_blank">View Match</a></div>
+          <hr />
+        </div>
+      }
+    </div>
+  }
+}
+
